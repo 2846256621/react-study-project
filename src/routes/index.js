@@ -7,7 +7,7 @@ import{
     ArticleList
 } from '../pages'
 
-export const mainRouter = [{
+export const mainRoutes = [{
    pathname:'/login',
    component:Login
 },{
@@ -15,17 +15,26 @@ export const mainRouter = [{
     component:NotFound
 }];
 
-export const adminRouter = [{
+export const adminRoutes = [{
         pathname:'/admin/dashboard',
-        component:Dashboard
-},{
-        pathname:'/admin/settings',
-        component:Settings
+        component:Dashboard,
+        title:'仪表盘',
+        icon:'dashboard',
+        isNav:true
 },{
         pathname:'/admin/article',
         component:ArticleList,
-        exact:true
+        exact:true,
+        title:'文章管理',
+        icon:'unordered-list',
+        isNav:true
 },{
         pathname:'/admin/article/edit/:id',
-        component:ArticleEdit
+        component:ArticleEdit,
+},{
+        pathname:'/admin/settings',
+        component:Settings,
+        icon:'setting',
+        title:'设置',
+        isNav:true
 }];

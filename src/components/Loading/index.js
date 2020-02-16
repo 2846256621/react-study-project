@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 
-class Settings extends Component {
+class Loading extends Component {
     render() {
         return (
             <div>
-                设置
+                loading ......
             </div>
         );
     }
 }
 
-export default Settings;
+export default Loading;

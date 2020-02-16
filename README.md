@@ -14,7 +14,7 @@
 
 (5) 配置less,建立一个less文件，并测试，配置config-overrides.js
 
-`npm i less lessloder -D`
+`npm i less less-loader -D`
 
 (6) 重启检测
 
@@ -23,7 +23,7 @@
 `npm i antd -S`
 `npm i babel-plugin-import -D`
 
-(8) 测试并配置主题 lessVar.js
+(8) 测试并配置主题 lessVar.js 
 
 (9) 配置装饰器模式(高阶组件WrappedComponent)
 
@@ -37,4 +37,17 @@
 
 `npm install react-router-dom -S`
 
+在index.js中配置 mainRouter，
+App.js中配置 adminRouter
 
+
+(2) 配置懒加载  安装react-loadable
+`npm i react-loadable -S`
+
+#### 4.编写页面组件
+
+
+#### 5.配置ajax
+ (1) 创建services并 安装 axios
+ 
+ `npm i axios -S`
