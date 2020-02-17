@@ -5,7 +5,7 @@ const services = axios.create({
     baseURL:'http://rap2api.taobao.org/app/mock/244572'
 });
 
-//拦截器
+//全局拦截器
 services.interceptors.request.use((config)=>{
     config.data = Object.assign({},config.data,{
        // authToken:window.localstorage.getItem('authToken')
