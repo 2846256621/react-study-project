@@ -10,6 +10,8 @@ import {getArticle} from "../../Services";
 
 import moment from 'moment'  //格式化时间 moment.js 库
 
+import  XLSX from 'xlsx' //导出Excel的库 sheetjs.jsx
+
 //将键名 换成中文
 const titleDisplayMap = {
     id:'id',
@@ -23,8 +25,8 @@ class ArticleList extends Component {
     constructor(){
         super();
         this.state={
-            dataSource : [],
-            columns : [],
+            dataSource : [],  // 文章的list
+            columns : [],  //从list中分离出的table 的标头
             total:0,
             isLoading:false,
             offset:0,
@@ -32,7 +34,7 @@ class ArticleList extends Component {
         }
     }
 
-    //todo 创建columns,根据类型的不同 作出不同的判断
+    /**创建columns,根据类型的不同 作出不同的判断*/
     createColumns = (columnKeys)=>{
 
       const col =  columnKeys.map(item=>{
@@ -75,7 +77,7 @@ class ArticleList extends Component {
                 key: item,
             }
         });
-        //将前面 固定的 渲染好之后，加一个 操作的渲染
+        /**将前面 固定的 渲染好之后，加一个 操作的渲染*/
         col.push({
            title:'操作',
            key:'action',
@@ -102,7 +104,7 @@ class ArticleList extends Component {
                 const columnKeys = Object.keys(res.data.list[0]);//获取键名
                 const columns = this.createColumns(columnKeys);
                 //根据请求 返回的数据，来组成columns,即表格的表头
-                //todo 设置 columns 与 dataSource 的内容
+                /**设置 columns 与 dataSource 的内容*/
                 this.setState({
                     total:res.total,
                     dataSource:res.data.list,
@@ -120,19 +122,19 @@ class ArticleList extends Component {
             })
     };
 
-    //todo 获取当前分页信息 去请求那一页的数据
+    /** 获取当前分页信息 去请求那一页的数据*/
     onPageChange = (page,pageSize) =>{
         console.log(page, pageSize);
         this.setState({
             offset :pageSize *(page -1),
             limited:pageSize
         },()=>{
-            //todo 点击分页过后，改变传参的数据，进行新的一次请求
+            /**点击分页过后，改变传参的数据，进行新的一次请求*/
             this.getData();  //异步获取 并发送请求
         })
     };
 
-    //todo 可改变当前分页的大小，然后去请求
+    /** 可改变当前分页的大小，然后去请求*/
     onShowSizeChange =(current, size)=>{
         console.log(current, size);
         this.setState({
@@ -144,17 +146,47 @@ class ArticleList extends Component {
         })
     };
 
-    //此生命周期 进行初始化ajax请求
-    //todo 进行第一次请求（默认状态）
+    /** 导出excel  使用xlsx 实际上是前端发送请求，后端返回一个文件下载的地址）*/
+    toExcel = () =>{
+        console.log('excel');
+
+        /**组合需要导入的数据 成 二维数组*/
+        const data = [Object.keys(this.state.dataSource[0])]; /**excel第一行是表头 [["id","title","author","amount","createAt"]]*/
+
+        //excel后面是 数据
+        for(let i=0;i<this.state.dataSource.length;i++){
+            // data.push(Object.values(this.state.dataSource[i]));
+            /**一条条手动 push，时间格式可以修改成正确的*/
+            data.push([
+               this.state.dataSource[i].id,
+               this.state.dataSource[i].title,
+               this.state.dataSource[i].author,
+               this.state.dataSource[i].amount,
+               moment(this.state.dataSource[i].createAt).format('YYYY年MM月DD日 hh:mm:ss')
+            ])
+        }
+        console.log(data);
+
+        /**导出 excel 操作*/
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
+
+        XLSX.writeFile(wb, `文章导出-${this.state.offset/this.state.limited +1}-${moment().format('YYYY-MM-DD-HH-SS')}.xlsx`)
+    };
+
+
+    /**此生命周期 进行初始化ajax请求
+     * 进行第一次请求（默认状态）*/
     componentDidMount(){
         this.getData();
     }
 
-
+    //渲染
     render() {
         //todo 表格是根据 columns 与 dataSource 来确定表格内容的
         return (
-            <Card title="文章列表" bordered={false} extra={<Button>导出Excel</Button>}>
+            <Card title="文章列表" bordered={false} extra={<Button onClick={this.toExcel}>导出Excel</Button>}>
                 <Table
                     rowKey={record => {
                         return record.id

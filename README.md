@@ -51,3 +51,15 @@ App.js中配置 adminRouter
  (1) 创建services并 安装 axios
  
  `npm i axios -S`
+ 
+#### 6.导出excel 的插件
+   (1) 安装 `npm i xlsx -S`
+   
+   (2) 只需要以下几句代码
+   ```
+      const ws = XLSX.utils.aoa_to_sheet(this.state.data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
+      XLSX.writeFile(wb, "sheetjs.xlsx")
+   ```
+   这个 this.state.data 是个二维数组，类似：[["a","b"],[1,2]]
