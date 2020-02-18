@@ -1,5 +1,7 @@
 import axios from 'axios'
-
+import {
+    message
+} from 'antd'
 // const isDev = process.env.NODE_ENV = 'development';
 const services = axios.create({
     baseURL:'http://rap2api.taobao.org/app/mock/244572'
@@ -23,10 +25,18 @@ services.interceptors.response.use((res)=>{
     }
 });
 
-//传入分页参数 后端 的默认传参为 {offset: 0, limited: 10, authToken: "isToken"}
+/**传入分页参数 后端 的默认传参为 {offset: 0, limited: 10, authToken: "isToken"}*/
+/**获取文章列表*/
 export const getArticle = (offset=0,limited=10)=>{
     return services.post('/api/v1/articleList',{
         offset,
         limited
+    })
+};
+
+/**通过id删除文章*/
+export const deleteArticle = (id)=>{
+    return services.post('/api/v1/articleDelete/id',{
+        id
     })
 };

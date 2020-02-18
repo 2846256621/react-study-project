@@ -3,16 +3,26 @@ import {
     Card,
     Button,
     Table,
-    Tag
+    Tag,
+    Modal,
+    Typography,
+    message
 } from 'antd'
 
-import {getArticle} from "../../Services";
+const { Text } = Typography;
+// 引入接口
+import {
+    getArticle,
+    deleteArticle
+} from "../../Services";
 
-import moment from 'moment'  //格式化时间 moment.js 库
+//格式化时间 moment.js 库
+import moment from 'moment'
 
-import  XLSX from 'xlsx' //导出Excel的库 sheetjs.jsx
+//导出Excel的库 sheetjs.js
+import  XLSX from 'xlsx'
 
-//将键名 换成中文
+/** 组合columns时  将键名 对应换成中文*/
 const titleDisplayMap = {
     id:'id',
     title:'标题',
@@ -30,7 +40,11 @@ class ArticleList extends Component {
             total:0,
             isLoading:false,
             offset:0,
-            limited:10
+            limited:10,
+            articleTitle:'',
+            deleteModalVisible:false, // 删除弹框的展示
+            deleteArticleConfirmLoading:false, //确定按钮上的loading
+            deleteArticleId:null,//要删除的id
         }
     }
 
@@ -81,18 +95,80 @@ class ArticleList extends Component {
         col.push({
            title:'操作',
            key:'action',
-           render: ()=>{
+           render: (text,record)=>{
                return (
                    <Button.Group>
                      <Button size='small' type="primary" ghost>编辑</Button>
-                     <Button size='small' type="danger" ghost>删除</Button>
+                     <Button size='small' type="danger" ghost onClick={this.showDeleteArticleModel.bind(this,record)}>删除</Button>
                    </Button.Group>
                )
            }
         });
         return col;
     };
-    // ajax请求
+
+    /**删除弹框*/
+    showDeleteArticleModel = (record)=>{
+        /**使用函数的方式，定制感不强*/
+        // Modal.confirm({
+            // title: <Typography>此操作不可逆，请慎重</Typography> ,
+            // content: `确定要删除文章《${record.title}》吗？`,
+            // okText:'确认删除',
+            // cancelText:'我点错了',
+            // onOk:()=>{
+            //     deleteArticle(record.id)
+            //         .then(res =>{
+            //             console.log(res);
+            //
+            //         })
+            //         .catch(err=>{});
+            // },
+            // onCancel:()=>{}
+        // });
+        this.setState({
+            articleTitle:record.title,
+            deleteModalVisible:true,
+            deleteArticleId:record.id
+        })
+    };
+
+    /**取消删除 关闭弹框*/
+    handleDeleteCancel = ()=>{
+        this.setState({
+            deleteModalVisible:false
+        })
+    };
+
+    /**删除文章 根据id*/
+    handleDeleteArticle = ()=>{
+        console.log(this.state.deleteArticleId);
+        this.setState({
+            deleteArticleConfirmLoading:true
+        });
+        deleteArticle(this.state.deleteArticleId)
+            .then(res=>{
+                message.success(res.data.msg); //显示提示消息
+
+                /**此时分页的时候，是留在当前页还是回到首页  */
+                /**若 回到首页*/
+                this.setState({
+                    offset:0
+                },()=>{
+                    this.getData(); //重新请求数据
+                });
+            })
+            .catch(err=>{
+                message.success('删除文章失败');
+            })
+            .finally(()=>{
+                this.setState({
+                    deleteArticleConfirmLoading:false, //确认按钮的loading 取消
+                    deleteModalVisible:false  //关闭弹窗
+                });
+            })
+    };
+
+    /**获取文章列表的 发送ajax请求*/
     getData = ()=>{
         //设置 loading 动画
         this.setState({
@@ -124,7 +200,7 @@ class ArticleList extends Component {
 
     /** 获取当前分页信息 去请求那一页的数据*/
     onPageChange = (page,pageSize) =>{
-        console.log(page, pageSize);
+        // console.log(page, pageSize);
         this.setState({
             offset :pageSize *(page -1),
             limited:pageSize
@@ -136,7 +212,7 @@ class ArticleList extends Component {
 
     /** 可改变当前分页的大小，然后去请求*/
     onShowSizeChange =(current, size)=>{
-        console.log(current, size);
+        // console.log(current, size);
         this.setState({
             offset :0, //每次请求 回到首页
             // offset :size*(current-1), //每次请求 停在当前页
@@ -165,7 +241,7 @@ class ArticleList extends Component {
                moment(this.state.dataSource[i].createAt).format('YYYY年MM月DD日 hh:mm:ss')
             ])
         }
-        console.log(data);
+        // console.log(data);
 
         /**导出 excel 操作*/
         const ws = XLSX.utils.aoa_to_sheet(data);
@@ -176,8 +252,7 @@ class ArticleList extends Component {
     };
 
 
-    /**此生命周期 进行初始化ajax请求
-     * 进行第一次请求（默认状态）*/
+    /**此生命周期 进行初始化ajax请求  进行第一次请求（默认状态）*/
     componentDidMount(){
         this.getData();
     }
@@ -206,7 +281,18 @@ class ArticleList extends Component {
                         pageSizeOptions:['10','15','30','45']	//指定每页可以显示多少条
                     }}
                 />;
+
+                <Modal
+                    title={<Typography>此操作不可逆，请慎重</Typography>}
+                    visible={this.state.deleteModalVisible}
+                    onOk={this.handleDeleteArticle}
+                    onCancel={this.handleDeleteCancel}
+                    confirmLoading={this.state.deleteArticleConfirmLoading}
+                >
+                    确定要删除文章 <Text type="warning">《{this.state.articleTitle}》</Text>吗？
+                </Modal>
             </Card>
+
         );
     }
 }
