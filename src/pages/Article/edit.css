@@ -1,0 +1,11 @@
+.w-e-toolbar {
+    flex-wrap: wrap;
+}
+.w-e-text {
+    padding: 10px;
+    overflow-y: auto;
+}
+.yu-editor{
+    position: relative;
+    z-index: 0;
+}

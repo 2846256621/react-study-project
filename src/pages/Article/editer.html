@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <button onclick="boldStyle()">加粗</button>
+    <button onclick="ItalicStyle()">倾斜</button>
+    <button onclick="redColorStyle()">红色文字</button>
+    <div contenteditable="true" style="border: 1px solid #cccccc;width: 500px;min-height: 200px">
+        <img src="http://img3.imgtn.bdimg.com/it/u=2349859212,1053714951&fm=26&gp=0.jpg" width="150" height="150" />
+        哈哈哈哈哈哈哈哈哈哈或或或哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈或或或或或或或哈哈哈哈哈哈哈哈哈哈或或或或或或哈哈哈哈哈哈哈哈哈哈或或或或或或男男女女女女女女女女女女女女女女女女哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或好哈哈哈哈哈哈哈哈哈哈或或或或多多多多多多多多多多多多多多多
+    </div>
+
+    <script>
+        function boldStyle(){
+            document.execCommand('Bold')
+        }
+        function  ItalicStyle() {
+            document.execCommand('Italic')
+        }
+        function redColorStyle() {
+            document.execCommand('foreColor',null,'red')
+        }
+    </script>
+</body>
+</html>

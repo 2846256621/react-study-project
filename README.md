@@ -63,3 +63,12 @@ App.js中配置 adminRouter
       XLSX.writeFile(wb, "sheetjs.xlsx")
    ```
    这个 this.state.data 是个二维数组，类似：[["a","b"],[1,2]]
+#### 7.对时间的格式处理使用moment.js
+    
+     安装 ：npm install moment
+     使用 ：moment(createAt).format('YYYY年MM月DD日 hh:mm:ss')
+#### 8.使用富文本编辑
+   - 可用 wangeditor
+    `npm install wangeditor`  
+   - markdown语法的Editor.md
+    

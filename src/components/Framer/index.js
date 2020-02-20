@@ -13,8 +13,8 @@ const breadcrumbNameMap = {
     '/admin':'首页',
     '/admin/dashboard':'仪表盘',
     '/admin/article':'文章管理',
-    '/admin/article/edit/':'编辑文章',
     '/admin/settings':'设置',
+    '/admin/article/edit':'编辑文章'
 };
 class Framer extends Component {
     constructor(){
@@ -30,16 +30,15 @@ class Framer extends Component {
     };
     //面包屑导航
     getPath = () => {
-        console.log(this.props);
         //对路径进行切分并去重，存放到this.state.pathSnippets中
         this.state.pathSnippets = this.props.location.pathname.split('/').filter(i => i);
-        console.log(this.state.pathSnippets);
+
         //将切分的路径读出来，形成面包屑，存放到this.state.extraBreadcrumbItems
-        this.state.extraBreadcrumbItems = this.state.pathSnippets.map((_, index) => {
+        this.state.extraBreadcrumbItems = this.state.pathSnippets.map((item, index) => {
             let url = `/${this.state.pathSnippets.slice(0, index + 1).join('/')}`;
             return  breadcrumbNameMap[url]
         }) ;
-        console.log( this.state.extraBreadcrumbItems);
+        this.state.extraBreadcrumbItems.length = 3; //编辑文章时，后面的id 省略
 
     };
 

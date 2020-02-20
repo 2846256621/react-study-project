@@ -40,3 +40,15 @@ export const deleteArticle = (id)=>{
         id
     })
 };
+
+/**通过id 获取文章*/
+export const getArticleById = (id)=>{
+    return services.post('/api/v1/article/id',{
+        id
+    })
+};
+
+/**修改之后 保存文章*/
+export const saveArticle = (data)=>{
+    return services.post('/api/v1/articleEdit/:id',data)
+};
