@@ -31,6 +31,7 @@ class App extends Component {
                                         key={route.pathname}
                                         path={route.pathname}
                                         exact={route.exact}
+                                        //使props 中包含路由信息
                                         render={(routerProps)=>{
                                                 return <route.component {...routerProps}/>
                                             }

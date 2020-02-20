@@ -6,7 +6,8 @@ import {
     Tag,
     Modal,
     Typography,
-    message
+    message,
+    Tooltip
 } from 'antd'
 
 const { Text } = Typography;
@@ -52,6 +53,7 @@ class ArticleList extends Component {
     createColumns = (columnKeys)=>{
 
       const col =  columnKeys.map(item=>{
+            //数量
            if(item === 'amount'){
                return{
                    title: titleDisplayMap[item],
@@ -69,10 +71,13 @@ class ArticleList extends Component {
                         *  }
                         *  return <Tag color={titleMap[titleKey] }>{record.title}</Tag>
                         * */
-                       return <Tag color={amount>200 ? "magenta":"cyan" }>{record.amount}</Tag>
+                       return (<Tooltip title={amount>200 ? "超过230":"未超过230" }>
+                           <Tag color={amount>200 ? "magenta":"cyan" }>{record.amount}</Tag>
+                       </Tooltip>)
                    }
                }
            }
+           //时间
            if(item === 'createAt') {
                return {
                    title: titleDisplayMap[item],
@@ -98,7 +103,7 @@ class ArticleList extends Component {
            render: (text,record)=>{
                return (
                    <Button.Group>
-                     <Button size='small' type="primary" ghost>编辑</Button>
+                     <Button size='small' type="primary" ghost onClick={this.toEdit.bind(this,record)}>编辑</Button>
                      <Button size='small' type="danger" ghost onClick={this.showDeleteArticleModel.bind(this,record)}>删除</Button>
                    </Button.Group>
                )
@@ -251,6 +256,15 @@ class ArticleList extends Component {
         XLSX.writeFile(wb, `文章导出-${this.state.offset/this.state.limited +1}-${moment().format('YYYY-MM-DD-HH-SS')}.xlsx`)
     };
 
+    /**编辑*/
+    toEdit = (record) =>{
+        console.log(record);
+        //隐式传参
+        this.props.history.push({
+            pathname:`/admin/article/edit/${record.id}`,
+            state : { title:record.title }
+        })
+    };
 
     /**此生命周期 进行初始化ajax请求  进行第一次请求（默认状态）*/
     componentDidMount(){
