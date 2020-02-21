@@ -72,3 +72,5 @@ App.js中配置 adminRouter
     `npm install wangeditor`  
    - markdown语法的Editor.md
     
+#### 9.使用 图表 （echarts 、antv）
+     npm install echarts --save

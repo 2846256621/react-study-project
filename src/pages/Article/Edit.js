@@ -19,6 +19,8 @@ import {
     getArticleById,
     saveArticle
 } from "../../Services";
+
+
 import moment from 'moment'
 
 /**利用栅格系统进行表单的布局，共24格*/
@@ -84,6 +86,7 @@ class Edit extends Component {
          };
         //最后创建
         this.editor.create();
+
     };
     componentDidMount(){
         this.initEditor(); //建立 富文本

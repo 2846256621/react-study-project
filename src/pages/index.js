@@ -40,6 +40,10 @@ const ArticleEdit = Loadable({
     loader:()=>import('./Article/Edit'),
     loading:Loading
 });
+const Notifications = Loadable({
+    loader:()=>import('./Notifications'),
+    loading:Loading
+});
 
 
 export {
@@ -48,5 +52,6 @@ export {
     NotFound,
     Settings,
     ArticleEdit,
-    ArticleList
+    ArticleList,
+    Notifications
 }

@@ -1,5 +1,13 @@
 import React, {Component, Fragment} from 'react';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import {
+    Layout,
+    Menu,
+    Breadcrumb,
+    Icon,
+    Dropdown,
+    Avatar,
+    Badge
+} from 'antd';
 import logo from '../../assets/logo.png'
 import './framer.less'
 import {withRouter,Link} from 'react-router-dom'
@@ -14,7 +22,8 @@ const breadcrumbNameMap = {
     '/admin/dashboard':'仪表盘',
     '/admin/article':'文章管理',
     '/admin/settings':'设置',
-    '/admin/article/edit':'编辑文章'
+    '/admin/article/edit':'编辑文章',
+    '/admin/notifications':'通知中心'
 };
 class Framer extends Component {
     constructor(){
@@ -23,11 +32,13 @@ class Framer extends Component {
             pathSnippets: null,
             extraBreadcrumbItems: [],
         }
+
     }
     //侧边导航
     onMenuClick = ({ key})=>{
         this.props.history.push(key)
     };
+
     //面包屑导航
     getPath = () => {
         //对路径进行切分并去重，存放到this.state.pathSnippets中
@@ -45,6 +56,27 @@ class Framer extends Component {
     componentWillMount() {
         this.getPath();
     }
+
+    // onClick	点击 MenuItem 调用此函数	function({ item, key, keyPath, domEvent })
+    onDropMenuClick = ({key})=>{
+        this.props.history.push(key)
+    };
+    menu = (
+        <Menu onClick={this.onDropMenuClick}>
+            {/*key	item 的唯一标志*/}
+            <Menu.Item key="/admin/notifications">
+                <Badge dot>
+                       通知中心
+                </Badge>
+            </Menu.Item>
+            <Menu.Item  key="/admin/settings">
+                   个人设置
+            </Menu.Item>
+            <Menu.Item  key="/admin/logout">
+                    退出登录
+            </Menu.Item>
+        </Menu>
+    );
     render() {
 
         /**url高亮设计  深层目录，高亮显示的时候，只取前两层，然后 最后再拼接*/
@@ -57,6 +89,17 @@ class Framer extends Component {
                     <div className="yu-logo">
                         <img src={logo}/>
                     </div>
+
+                    <Dropdown overlay={this.menu}>
+                        <span onClick={e => e.preventDefault()}>
+                            <Avatar style={{ backgroundColor: '#87d068',marginRight:10 }} icon="user" />
+                            <span>欢迎您！小本</span>
+                            <Badge count={11} offset={[-8,-10]}>
+                                <Icon type="down" />
+                            </Badge>
+                        </span>
+                    </Dropdown>
+
                 </Header>
                 <Layout>
                     <Sider width={200} style={{ background: '#fff' }}>

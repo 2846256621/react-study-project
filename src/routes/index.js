@@ -4,7 +4,8 @@ import{
     NotFound,
     Settings,
     ArticleEdit,
-    ArticleList
+    ArticleList,
+    Notifications
 } from '../pages'
 
 export const mainRoutes = [{
@@ -31,6 +32,9 @@ export const adminRoutes = [{
 },{
         pathname:'/admin/article/edit/:id',
         component:ArticleEdit,
+},{
+        pathname:'/admin/notifications',
+        component:Notifications,
 },{
         pathname:'/admin/settings',
         component:Settings,

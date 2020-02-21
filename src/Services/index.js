@@ -52,3 +52,8 @@ export const getArticleById = (id)=>{
 export const saveArticle = (data)=>{
     return services.post('/api/v1/articleEdit/:id',data)
 };
+
+/**获取文章阅读量 浏览人数及对应月份*/
+export const getArticleAmount = ()=>{
+    return services.post('/api/v1/articleAmount')
+};
