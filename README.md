@@ -74,3 +74,9 @@ App.js中配置 adminRouter
     
 #### 9.使用 图表 （echarts 、antv）
      npm install echarts --save
+     
+#### 10.使用redux
+`npm install react-redux redux-thunk -S`
+
+actions负责定义传参，component中进行调用，reducer进行逻辑处理
+。即可以从actions中做ajax请求，在component中去调用，然后去更新reducer中的初始化数据

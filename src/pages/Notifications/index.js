@@ -4,43 +4,69 @@ import {
     Button,
     List,
     Avatar,
-    Badge
+    Badge,
+    Spin
 } from "antd";
 
+import {connect} from  'react-redux'  //连接redux
+
+
+//标记已读
+import {
+    markNotificationReadById,
+    markALLNotificationRead
+} from "../../actions/notification";
+
 class Notifications extends Component {
-    data = [
-        {
-            title: 'Ant Design Title 1',
-        },
-        {
-            title: 'Ant Design Title 2',
-        },
-        {
-            title: 'Ant Design Title 3',
-        },
-        {
-            title: 'Ant Design Title 4',
-        },
-    ];
+
     render() {
+        console.log(this.props); //有dispatch 表示连接store成功
         return (
-            <Card title="通知中心" bordered={false} extra={<Button type="primary" ghost>全部标记为已读</Button>}>
+            <Spin spinning={this.props.isLoading}>
+            <Card title="通知中心" bordered={false}
+                  extra={<Button type="primary" ghost
+                         disabled={this.props.list.every(item =>item.hasRead === true)}
+                         onClick={this.props.markALLNotificationRead}
+                        >全部标记为已读</Button>
+                  }
+            >
                 <List
                     itemLayout="horizontal"
-                    dataSource={this.data}
+                    dataSource={this.props.list}
                     renderItem={item => (
-                        <List.Item extra={<Button type="dashed" >标记为已读</Button>}>
+                        /**通过 redux 来做 标记已读功能
+                         * 在actions中进行传参设计
+                         * reducer中进行处理
+                         * */
+                        <List.Item extra={item.hasRead ?
+                            null :
+                            <Button type="dashed"
+                                    onClick={this.props.markNotificationReadById.bind(this,item.id)} >标为已读</Button>}>
                             <List.Item.Meta
-                                avatar={<Badge dot><Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /></Badge>}
+                                avatar={<Badge dot={!item.hasRead}><Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /></Badge>}
                                 title={item.title}
-                                description="你有一条消息未读，请尽快查收"
+                                description={item.desc}
                             />
                         </List.Item>
                     )}
                 />,
             </Card>
+            </Spin>
         );
     }
-}
 
-export default Notifications;
+
+}
+const mapState = (state) =>{
+    const {
+        list = [],
+        isLoading
+    } = state.notification;
+    return{
+        list,   //往 this.props中 注入数据
+        isLoading
+    }
+};
+
+/** 通过connect 将这些方法直接加入 this.props*/
+export default connect(mapState,{markNotificationReadById,markALLNotificationRead})(Notifications);

@@ -6,9 +6,15 @@ import zhCN from 'antd/es/locale/zh_CN'; //汉语配置
 import App from './App'
 import './index.less'
 import ConfigProvider from "antd/es/config-provider";
+
+//使用redux
+import store from './store'
+import {Provider} from 'react-redux'
+
 render(
-    <ConfigProvider locale={zhCN}>
-    <Router>
+    <Provider store={store}>
+        <ConfigProvider locale={zhCN}>
+            <Router>
         <Switch>
             <Route path='/admin' render={(nextProps)=>{
                 //todo 需要登录才会访问admin
@@ -26,6 +32,7 @@ render(
             <Redirect to='/404'/>
         </Switch>
     </Router>
-    </ConfigProvider>,
+        </ConfigProvider>
+    </Provider>,
     document.querySelector('#root')
 );

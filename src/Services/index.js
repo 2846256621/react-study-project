@@ -57,3 +57,8 @@ export const saveArticle = (data)=>{
 export const getArticleAmount = ()=>{
     return services.post('/api/v1/articleAmount')
 };
+
+/**通知中心 获取通知列表*/
+export const getNotifications = ()=>{
+    return services.post('/api/v1/notifications')
+};
