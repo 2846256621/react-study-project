@@ -17,7 +17,9 @@ render(
             <Router>
         <Switch>
             <Route path='/admin' render={(nextProps)=>{
-                //todo 需要登录才会访问admin
+                //权限 需要登录才会访问admin
+                // return store.getState().login.isLogin ? <App {...nextProps}/> : <Redirect to='/login'/>
+                //上面写法比较复杂，可以在App里面做权限认证
                 return <App {...nextProps}/>
             }}/>
             {/*外部同级路由*/}

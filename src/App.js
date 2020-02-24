@@ -3,6 +3,7 @@ import React, {Component, Fragment} from 'react';
 import {Route,Switch,Redirect} from 'react-router-dom'
 import {adminRoutes} from './routes'
 
+import {connect} from 'react-redux'
 import{ Framer} from './components'
 //装饰器模式配置 高阶组件
 // const testHOC = (WrappedComponent) =>{
@@ -21,7 +22,11 @@ import{ Framer} from './components'
 const menus = adminRoutes.filter(route => route.isNav === true);
 class App extends Component {
     render() {
+        console.log(this.props.isLogin);
+        //是否登录 验证
         return (
+                this.props.isLogin
+                ?
                 <Framer menus={menus}>
                     <Switch>
                         {
@@ -44,9 +49,16 @@ class App extends Component {
                         <Redirect to='/404'/>
                     </Switch>
                 </Framer>
+                :
+                <Redirect to='/login'/>
          );
     }
 }
+const mapState = (state)=> {
+  return{
+      isLogin:state.login.isLogin
+  }
+};
 
-export default App;
+export default connect(mapState)(App);
 

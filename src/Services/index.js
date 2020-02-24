@@ -2,8 +2,13 @@ import axios from 'axios'
 import {
     message
 } from 'antd'
-// const isDev = process.env.NODE_ENV = 'development';
+// 要全局拦截
 const services = axios.create({
+    baseURL:'http://rap2api.taobao.org/app/mock/244572'
+});
+
+//不需要全局拦截
+const services_1 = axios.create({
     baseURL:'http://rap2api.taobao.org/app/mock/244572'
 });
 
@@ -61,4 +66,9 @@ export const getArticleAmount = ()=>{
 /**通知中心 获取通知列表*/
 export const getNotifications = ()=>{
     return services.post('/api/v1/notifications')
+};
+
+/**登录接口*/
+export const loginIn = (userInfo)=>{
+  return services_1.post('/api/v1/login',userInfo)
 };

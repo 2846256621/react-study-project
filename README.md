@@ -9,7 +9,7 @@
 (2) 新建config-overrides.js
 
 (3) 修改package.json 中的 scripts
-
+cd
 (4) 重启检测
 
 (5) 配置less,建立一个less文件，并测试，配置config-overrides.js
