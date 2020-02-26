@@ -14,11 +14,15 @@ import {withRouter,Link} from 'react-router-dom'
 
 import {connect} from  'react-redux'  //连接redux
 
+
+//从actions 中引入方法 ，并注入props
 import {getNotificationList} from '../../actions/notification'
+
+import {loginOut} from '../../actions/login'
+
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
-
 
 
 //具体导航的名称
@@ -63,9 +67,14 @@ class Framer extends Component {
         this.props.getNotificationList(); //去得到通知列表
     }
 
-    // onClick	点击 MenuItem 调用此函数	function({ item, key, keyPath, domEvent })
+    /** onClick	点击 MenuItem 调用此函数	function({ item, key, keyPath, domEvent })*/
     onDropMenuClick = ({key})=>{
-        this.props.history.push(key)
+
+        if(key === '/admin/logout'){
+            this.props.loginOut(); //退出登录
+        }
+        else
+         this.props.history.push(key)
     };
 
     //渲染下拉菜单
@@ -81,13 +90,13 @@ class Framer extends Component {
             <Menu.Item  key="/admin/settings">
                 个人设置
             </Menu.Item>
-            <Menu.Item  key="/admin/logout">
+            <Menu.Item  key="/admin/logout" >
                 退出登录
             </Menu.Item>
         </Menu>)
     };
     render() {
-        // console.log(this.props);
+        console.log(this.props);
         /**url高亮设计  深层目录，高亮显示的时候，只取前两层，然后 最后再拼接*/
         const selectedKeysArr = this.props.location.pathname.split('/');
         selectedKeysArr.length = 3;
@@ -101,8 +110,8 @@ class Framer extends Component {
 
                     <Dropdown overlay={this.dropDownMenu}>
                         <span onClick={e => e.preventDefault()}>
-                            <Avatar style={{ backgroundColor: '#87d068',marginRight:10 }} icon="user" />
-                            <span>欢迎您！小本</span>
+                            <Avatar  src={this.props.avatar} style={{marginRight:10 }} />
+                            <span>欢迎您！{this.props.displayName}</span>
                             <Badge count={this.props.notificationCount} offset={[-8,-10]}>
                                 <Icon type="down" />
                             </Badge>
@@ -155,9 +164,12 @@ class Framer extends Component {
     }
 }
 const mapState = (state)=>{
+    console.log(state);
   return{
-    notificationCount: state.notification.list.filter(item =>{return item.hasRead===false}).length  //通知条数
+      notificationCount: state.notification.list.filter(item =>{return item.hasRead===false}).length,  //通知条数
+      avatar:state.login.avatar,
+      displayName :state.login.displayName
   }
 };
 //使用withRouter 才有 内层的路由信息
-export default connect(mapState,{getNotificationList})(withRouter(Framer));
+export default connect(mapState,{getNotificationList,loginOut})(withRouter(Framer));

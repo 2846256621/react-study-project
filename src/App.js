@@ -22,7 +22,7 @@ import{ Framer} from './components'
 const menus = adminRoutes.filter(route => route.isNav === true);
 class App extends Component {
     render() {
-        console.log(this.props.isLogin);
+        // console.log(this.props.isLogin);
         //是否登录 验证
         return (
                 this.props.isLogin

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import imgUrl from '../../assets/1.jpg'
 class NotFound extends Component {
     render() {
+
         return (
             <div>
                  404

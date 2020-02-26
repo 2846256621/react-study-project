@@ -1,3 +1,7 @@
+body{
+    background: url("../../assets/bg.jpg") 100% 100% no-repeat;
+    background-size: cover;
+}
 .yu-login{
     min-width: 350px;
     min-height: 300px;
