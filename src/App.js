@@ -38,7 +38,13 @@ class App extends Component {
                                         exact={route.exact}
                                         //使props 中包含路由信息
                                         render={(routerProps)=>{
-                                                return <route.component {...routerProps}/>
+                                                // 获取路由是否包含此权限
+                                                const hasPermission = route.roles.includes(this.props.role);
+                                                return hasPermission
+                                                    ?
+                                                    <route.component {...routerProps}/>
+                                                    :
+                                                    <Redirect to='/admin/noauth'/>
                                             }
                                         }
                                     />
@@ -56,7 +62,8 @@ class App extends Component {
 }
 const mapState = (state)=> {
   return{
-      isLogin:state.login.isLogin
+      isLogin:state.login.isLogin,
+      role:state.login.role
   }
 };
 

@@ -96,7 +96,7 @@ class Framer extends Component {
         </Menu>)
     };
     render() {
-        console.log(this.props);
+        // console.log(this.props);
         /**url高亮设计  深层目录，高亮显示的时候，只取前两层，然后 最后再拼接*/
         const selectedKeysArr = this.props.location.pathname.split('/');
         selectedKeysArr.length = 3;
@@ -164,7 +164,6 @@ class Framer extends Component {
     }
 }
 const mapState = (state)=>{
-    console.log(state);
   return{
       notificationCount: state.notification.list.filter(item =>{return item.hasRead===false}).length,  //通知条数
       avatar:state.login.avatar,

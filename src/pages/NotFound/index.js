@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
+import {
+    Card
+} from 'antd'
+
 import imgUrl from '../../assets/1.jpg'
 class NotFound extends Component {
     render() {
 
         return (
-            <div>
-                 404
+            <Card>
+                 Not Found！
                 <img src={imgUrl}/>
-            </div>
+            </Card>
         );
     }
 }

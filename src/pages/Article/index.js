@@ -11,6 +11,7 @@ import {
 } from 'antd'
 
 const { Text } = Typography;
+
 // 引入接口
 import {
     getArticle,
@@ -265,7 +266,6 @@ class ArticleList extends Component {
             state : { title:record.title }
         })
     };
-
     /**此生命周期 进行初始化ajax请求  进行第一次请求（默认状态）*/
     componentDidMount(){
         this.getData();
