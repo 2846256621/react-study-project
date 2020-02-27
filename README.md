@@ -80,3 +80,26 @@ App.js中配置 adminRouter
 
 actions负责定义传参，component中进行调用，reducer进行逻辑处理
 。即可以从actions中做ajax请求，在component中去调用，然后去更新reducer中的初始化数据
+
+#### 11.可以使用 RAP2 生成mock数据
+
+#### 12.可以使用 贴图库去上传图片，然后 生成url
+
+
+#### 13.redux 使用总结
+     1.services中定义接口及传递的参数 ，也可在需要的组件内部 引入axios，进行ajax请求  
+     2.actionTypes 里面创建状态(大写)
+     3.action 里面定义状态，返回的参数 (type + payload)，也可进行ajax请求及异步的dispatch
+     4.组件 调用action中loginIn方法，并传入参数,同时更新 state 
+       (1)建立连接 connect()() 高阶组件
+       (2)定义mapState方法，像this.props中注入新数据
+          const mapState = (state)=>{
+              console.log(state);
+              return{
+                  avatarUrl:state.login.avatar
+              }
+          };
+      
+       (3)调用action中对应方法并传参 this.props.login(userInfo)   
+       (4)返回整个组件 export default connect(mapState,{loginIn})(login)
+     5.reducer 里面去 根据参数 更新数据 (switch-case + return { ...state,...userInfo})

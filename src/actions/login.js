@@ -76,3 +76,13 @@ export const login = (userInfo)=>{
 
     }
 };
+
+/**修改头像*/
+export const changeAvatar = (avatarUrl) =>{
+  return{
+      type:actionTypes.CHANGE_AVATAR,
+      payload:{
+          avatarUrl
+      }
+  }
+};

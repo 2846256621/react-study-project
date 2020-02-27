@@ -34,6 +34,12 @@ export default (state=initState,action)=>{
                 isLoading:false,
                 role:''
             };
+        //修改头像
+        case actionType.CHANGE_AVATAR:
+            return{
+                ...state,
+                avatar: action.payload.avatarUrl
+            };
         default:
             return state
     }
