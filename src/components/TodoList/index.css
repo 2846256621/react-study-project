@@ -1,0 +1,112 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.todoapp {
+    background: #fff;
+    margin: 130px 0 40px 0;
+    position: relative;
+}
+
+.main {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid #e6e6e6;
+}
+.toggle-check{
+    margin-left: 20px;
+}
+
+
+.todo-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.todo-list li {
+    position: relative;
+    font-size: 24px;
+    border-bottom: 1px solid #ededed;
+    text-align: left;
+}
+
+.todo-list li label {
+    word-break: break-all;
+    padding: 15px ;
+    display: inline-block;
+    line-height: 1.2;
+    transition: color 0.4s;
+    color: rgb(114, 117, 121);
+}
+
+.todo-list li.completed label {
+    color: #d9d9d9;
+    text-decoration: line-through;
+}
+.todo-list li .destroy {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    margin: auto 0;
+    font-size: 30px;
+    color: #cc9a9a;
+    transition: color 0.2s ease-out;
+    outline: none;
+}
+.todo-list li .destroy:hover:after {
+    content: '×';
+    display: block;
+    color: #af5b5e;
+}
+button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 100%;
+    vertical-align: baseline;
+    font-family: inherit;
+    font-weight: inherit;
+    color: inherit;
+    -webkit-appearance: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+input{
+    outline: none;
+}
+.todo-list li .edit {
+    display: none;
+}
+.edit {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    font-size: 24px;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: 1.4em;
+    /*border: 0;*/
+    color: inherit;
+    padding: 6px;
+    border: 1px solid #999;
+    box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.todo-list li.editing {
+    border-bottom: none;
+    padding: 0;
+}
+.todo-list li.editing .edit {
+    display: inline-block;
+    width: calc(90% - 43px);
+    padding: 12px 6px;
+    margin: 0 0 0 50px;
+}
